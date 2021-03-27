@@ -13,10 +13,13 @@ import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.sochidrive.pod.MainActivity
 import org.sochidrive.pod.R
 import org.sochidrive.pod.ui.clip.ChipsFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PictureOfTheDayFragment : Fragment() {
 
@@ -49,13 +52,18 @@ class PictureOfTheDayFragment : Fragment() {
             })
         }
 
+        initChipsRequest()
+
         setBootomAppBar(view)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        viewModel.getData().observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+        val formatDate = SimpleDateFormat("yyyy-MM-dd")
+        val myDate = formatDate.format(Date())
+
+        viewModel.getData(myDate).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,12 +85,39 @@ class PictureOfTheDayFragment : Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun initChipsRequest() {
+        val formatDate = SimpleDateFormat("yyyy-MM-dd")
+        val c = Calendar.getInstance()
+        val myDate = formatDate.format(Date())
+        c.add(Calendar.DATE,-1)
+        val yesterdayDay = formatDate.format(c.getTime())
+        c.add(Calendar.DATE,-1)
+        val beforeYesterdayDay = formatDate.format(c.getTime())
+
+        chipToday.setOnClickListener {
+            toast("Change today "+myDate.toString());
+            viewModel.getData(myDate).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+        }
+
+        chipBeforeYesterday.setOnClickListener {
+            toast("Change day before yesterday "+beforeYesterdayDay.toString());
+            viewModel.getData(beforeYesterdayDay).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+        }
+
+        chipYesterday.setOnClickListener {
+            toast("Change yesterday "+yesterdayDay.toString());
+            viewModel.getData(yesterdayDay).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+        }
+    }
+
     private fun renderData(data: PictureOfTheDayData) {
         when (data) {
             is PictureOfTheDayData.Success -> {
                 val serverResponseData = data.serverResponseData
 
                 val url = serverResponseData.url
+                val explanation = serverResponseData.explanation
+                val title = serverResponseData.title
 
                 if(url.isNullOrEmpty()) {
                     toast("Link is Empty")
@@ -93,6 +128,9 @@ class PictureOfTheDayFragment : Fragment() {
                         placeholder(R.drawable.ic_no_photo_vector)
                     }
                 }
+
+                explanation?.let { bottom_sheet_description.text = it }
+                title?.let { bottom_sheet_description_header.text = it }
 
             }
 
@@ -148,6 +186,7 @@ class PictureOfTheDayFragment : Fragment() {
                 bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_END
                 fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_back_fab))
                 bottom_app_bar.replaceMenu(R.menu.menu_bottom_bar_other_screen)
+                bottom_sheet_container.visibility = View.VISIBLE
             } else {
                 isMain = true
                 bottom_app_bar.navigationIcon =
@@ -155,6 +194,7 @@ class PictureOfTheDayFragment : Fragment() {
                 bottom_app_bar.fabAlignmentMode = BottomAppBar.FAB_ALIGNMENT_MODE_CENTER
                 fab.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_plus_fab))
                 bottom_app_bar.replaceMenu(R.menu.menu_bottom_bar)
+                bottom_sheet_container.visibility = View.GONE
             }
         }
     }
