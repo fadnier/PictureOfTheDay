@@ -97,17 +97,17 @@ class PictureOfTheDayFragment : Fragment() {
 
         chipToday.setOnClickListener {
             toast("Change today "+myDate.toString());
-            viewModel.getData(myDate).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+            viewModel.getData(myDate).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
         }
 
         chipBeforeYesterday.setOnClickListener {
             toast("Change day before yesterday "+beforeYesterdayDay.toString());
-            viewModel.getData(beforeYesterdayDay).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+            viewModel.getData(beforeYesterdayDay).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
         }
 
         chipYesterday.setOnClickListener {
             toast("Change yesterday "+yesterdayDay.toString());
-            viewModel.getData(yesterdayDay).observe(this@PictureOfTheDayFragment, Observer<PictureOfTheDayData>{ renderData(it) })
+            viewModel.getData(yesterdayDay).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
         }
     }
 
