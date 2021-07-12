@@ -13,4 +13,7 @@
     <color name="color_gray">#66000000</color>
     <color name="background">#FAFAFA</color>
     <color name="text_field_background">#FFFFFFFF</color>
+
+    <color name="colorAccent40Alfa">#662962FF</color>
+
 </resources>
