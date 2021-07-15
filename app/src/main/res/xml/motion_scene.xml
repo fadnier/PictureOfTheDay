@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment"
+        motion:constraintSetStart="@layout/animate_fragment_start"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment2"
+        motion:constraintSetStart="@layout/animate_fragment"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView2" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment3"
+        motion:constraintSetStart="@layout/animate_fragment"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView3" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment2"
+        motion:constraintSetStart="@layout/animate_fragment_start"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView2" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment"
+        motion:constraintSetStart="@layout/animate_fragment2"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment3"
+        motion:constraintSetStart="@layout/animate_fragment2"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView3" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment3"
+        motion:constraintSetStart="@layout/animate_fragment_start"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView3" />
+    </Transition>
+
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment"
+        motion:constraintSetStart="@layout/animate_fragment3"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView" />
+    </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@layout/animate_fragment2"
+        motion:constraintSetStart="@layout/animate_fragment3"
+        motion:duration="500">
+
+        <OnClick motion:targetId="@id/imageView2" />
+    </Transition>
+</MotionScene>
