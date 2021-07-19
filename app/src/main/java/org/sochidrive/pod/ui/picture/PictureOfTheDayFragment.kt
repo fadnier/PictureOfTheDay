@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.sochidrive.pod.MainActivity
 import org.sochidrive.pod.R
+import org.sochidrive.pod.ui.animate.AnimateFragment
 import org.sochidrive.pod.ui.apibottom.ApiBottomActivity
 import org.sochidrive.pod.ui.clip.ChipsFragment
 import org.sochidrive.pod.ui.settings.SettingsFragment
@@ -75,6 +76,8 @@ class PictureOfTheDayFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
+            R.id.app_bar_cl-> activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.container,
+                AnimateFragment())?.addToBackStack(null)?.commit()
             R.id.app_bar_fav -> activity?.let { startActivity(Intent(it, ApiBottomActivity::class.java)) }
             R.id.app_bar_settings -> activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.container,
                 SettingsFragment())?.addToBackStack(null)?.commit()
