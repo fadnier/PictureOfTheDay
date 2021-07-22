@@ -1,8 +1,10 @@
 package org.sochidrive.pod.ui.picture
 
+import android.animation.ObjectAnimator
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +30,11 @@ class PictureOfTheDayFragment : Fragment() {
 
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    private var isImageAnimate = false
+    private var isChipSelect1 = false
+    private var isChipSelect2 = false
+    private var isChipSelect3 = false
+
     private val viewModel : PictureOfTheDayModel by lazy {
         ViewModelProviders.of(this).get(PictureOfTheDayModel::class.java)
     }
@@ -49,15 +56,38 @@ class PictureOfTheDayFragment : Fragment() {
 
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
 
+        initChipsRequest()
+        init();
+
+        setBootomAppBar(view)
+    }
+
+    private fun init() {
         input_layout.setEndIconOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW).apply {
                 data = Uri.parse("https://en.wikipedia.org/wiki/${input_edit_text.text.toString()}")
             })
         }
+        image_view.setOnClickListener {
+            if(!isImageAnimate) {
+                isImageAnimate = true
+                it.animate()
+                    .rotation(360F)
+                    .scaleX(1.2f)
+                    .scaleY(1.2f)
+                    .translationY(100f)
+                    .setDuration(300)
+            } else {
+                isImageAnimate = false
+                it.animate()
+                    .rotation(-360f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .translationY(0f)
+                    .setDuration(300)
+            }
 
-        initChipsRequest()
-
-        setBootomAppBar(view)
+        }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -102,16 +132,58 @@ class PictureOfTheDayFragment : Fragment() {
         chipToday.setOnClickListener {
             toast("Change today "+myDate.toString());
             viewModel.getData(myDate).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
+            isChipSelect1=true
+            it.animate()
+                .y(-10f)
+                .setDuration(100)
+            if(isChipSelect2) {
+                chipBeforeYesterday.animate()
+                    .y(10f)
+                isChipSelect2=false
+            }
+            if(isChipSelect3) {
+                chipYesterday.animate()
+                    .y(10f)
+                isChipSelect3=false
+            }
         }
 
         chipBeforeYesterday.setOnClickListener {
             toast("Change day before yesterday "+beforeYesterdayDay.toString());
             viewModel.getData(beforeYesterdayDay).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
+            isChipSelect2=true
+            it.animate()
+                .y(-10f)
+                .setDuration(100)
+            if(isChipSelect1) {
+                chipToday.animate()
+                    .y(10f)
+                isChipSelect1=false
+            }
+            if(isChipSelect3) {
+                chipYesterday.animate()
+                    .y(10f)
+                isChipSelect3=false
+            }
         }
 
         chipYesterday.setOnClickListener {
             toast("Change yesterday "+yesterdayDay.toString());
             viewModel.getData(yesterdayDay).observe(viewLifecycleOwner, Observer<PictureOfTheDayData>{ renderData(it) })
+            isChipSelect3=true
+            it.animate()
+                .y(-10f)
+                .setDuration(100)
+            if(isChipSelect1) {
+                chipToday.animate()
+                    .y(10f)
+                isChipSelect1=false
+            }
+            if(isChipSelect2) {
+                chipBeforeYesterday.animate()
+                    .y(10f)
+                isChipSelect2=false
+            }
         }
     }
 

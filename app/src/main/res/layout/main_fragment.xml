@@ -52,6 +52,8 @@
             <org.sochidrive.pod.ui.view.EquilateralImageView
                 android:id="@+id/image_view"
                 style="@style/QuilateralImageView"
+                android:layout_marginLeft="@dimen/pic_def_margin"
+                android:layout_marginRight="@dimen/pic_def_margin"
                 android:contentDescription="@string/photo_of_the_day_stub"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
