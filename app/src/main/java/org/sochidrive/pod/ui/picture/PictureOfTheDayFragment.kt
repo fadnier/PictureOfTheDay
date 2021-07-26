@@ -1,10 +1,13 @@
 package org.sochidrive.pod.ui.picture
 
-import android.animation.ObjectAnimator
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.*
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,13 +18,13 @@ import androidx.lifecycle.ViewModelProviders
 import coil.api.load
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import kotlinx.android.synthetic.main.activity_api_bottom.*
 import kotlinx.android.synthetic.main.bottom_sheet_layout.*
 import kotlinx.android.synthetic.main.main_fragment.*
 import org.sochidrive.pod.MainActivity
 import org.sochidrive.pod.R
 import org.sochidrive.pod.ui.animate.AnimateFragment
 import org.sochidrive.pod.ui.apibottom.ApiBottomActivity
-import org.sochidrive.pod.ui.clip.ChipsFragment
 import org.sochidrive.pod.ui.settings.SettingsFragment
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,7 +60,18 @@ class PictureOfTheDayFragment : Fragment() {
         setBottomSheetBehavior(view.findViewById(R.id.bottom_sheet_container))
 
         initChipsRequest()
-        init();
+        init()
+        activity?.let {
+            val typeface = Typeface.createFromAsset(it.assets,"FallingSky-JKwK.otf")
+            chipBeforeYesterday.typeface = typeface
+            chipYesterday.typeface = typeface
+            chipToday.typeface = typeface
+            input_edit_text.typeface = typeface
+            input_layout.typeface = typeface
+            bottom_sheet_description_header.typeface = typeface
+            bottom_sheet_description.typeface = typeface
+        }
+
 
         setBootomAppBar(view)
     }
@@ -206,8 +220,22 @@ class PictureOfTheDayFragment : Fragment() {
                     }
                 }
 
-                explanation?.let { bottom_sheet_description.text = it }
-                title?.let { bottom_sheet_description_header.text = it }
+                explanation?.let {
+                    val spannable = SpannableString(it)
+                    spannable.setSpan(
+                        ForegroundColorSpan(Color.BLACK),
+                        0, spannable.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    bottom_sheet_description.text = spannable
+                }
+                title?.let {
+                    val spannable = SpannableString(it)
+                    spannable.setSpan(
+                        ForegroundColorSpan(Color.RED),
+                        0, spannable.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+                    bottom_sheet_description_header.text = spannable
+                }
 
             }
 
