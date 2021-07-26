@@ -12,6 +12,6 @@
         <item
             android:id="@+id/navigation_hw6"
             android:icon="@drawable/ic_send"
-            android:title="На экран 3" />
+            android:title="На экран Notes" />
     </group>
 </menu>

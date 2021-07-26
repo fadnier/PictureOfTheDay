@@ -1,23 +1,16 @@
 package org.sochidrive.pod.ui.recycler
 
-import android.graphics.Canvas
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.MotionEventCompat
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_recycler.*
 import kotlinx.android.synthetic.main.activity_recycler_item_earth.view.*
 import kotlinx.android.synthetic.main.activity_recycler_item_mars.view.*
 import org.sochidrive.pod.R
-import kotlin.math.abs
+
 
 class RecyclerActivity : AppCompatActivity() {
     private lateinit var itemTouchHelper: ItemTouchHelper
@@ -47,11 +40,23 @@ class RecyclerActivity : AppCompatActivity() {
         )
 
         recyclerView.adapter = adapter
-        recyclerActivityFAB.setOnClickListener { adapter.appendItem() }
+        recyclerActivityFAB.setOnClickListener {
+            //adapter.appendItem()
+            startActivityForResult(Intent(this,RecyclerEditActivity::class.java),99)
+        }
         itemTouchHelper = ItemTouchHelper(ItemTouchHelperCallback(adapter))
         itemTouchHelper.attachToRecyclerView(recyclerView)
         recyclerActivityDiffUtilFAB.setOnClickListener { changeAdapterData() }
         //changeAdapterData()
+    }
+
+    override fun onActivityResult(requestCode: Int, responseCode: Int, result: Intent?) {
+        super.onActivityResult(requestCode, responseCode, result)
+        if (result != null && responseCode == RESULT_OK) {
+            val title = result.getStringExtra("TITLE_SELECT")
+            val text = result.getStringExtra("TEXT_SELECT")
+            adapter.appendItem(Note(1,title.toString(),text.toString()))
+        }
     }
 
     private fun changeAdapterData() {

@@ -86,8 +86,8 @@ class RecyclerActivityAdapter(
         data.addAll(newItems)
     }
 
-    fun appendItem() {
-        data.add(generateItem())
+    fun appendItem(note: Note) {
+        data.add(Pair(note,false))
         notifyItemInserted(itemCount - 1)
     }
 

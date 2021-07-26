@@ -20,6 +20,7 @@
         </activity>
         <activity android:name=".ui.apibottom.ApiBottomActivity"/>
         <activity android:name=".ui.recycler.RecyclerActivity"/>
+        <activity android:name=".ui.recycler.RecyclerEditActivity"/>
     </application>
 
 </manifest>
