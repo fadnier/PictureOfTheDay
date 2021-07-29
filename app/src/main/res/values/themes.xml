@@ -54,4 +54,8 @@
         <item name="colorSurface">#BFBFBF</item>
         <item name="colorAccent">#D61515</item>
     </style>
+
+    <style name="Theme.PictureOfTheDay.Splash">
+        <item name="android:windowBackground">@drawable/splash_background_drawable</item>
+    </style>
 </resources>
